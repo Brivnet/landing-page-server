@@ -1,0 +1,29 @@
+{
+  "name": "brivnet-backend",
+  "version": "1.0.0",
+  "description": "Tech servicies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-dev": "nodemon index.js"
+  },
+  "keywords": [
+    "Technology",
+    "software",
+    "development",
+    "business",
+    "algorithm"
+  ],
+  "author": "Adriel",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
