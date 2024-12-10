@@ -22,4 +22,11 @@ router.put("/admin/login", bodyParser, isJSON, adminAuth.login)
 router.get("/admin/get-client-messages", isJwtValid, isAdmin, adminController.getClientMessages)
 router.delete("/admin/delete-client-message", isJwtValid, isAdmin, adminController.deleteClientMessage)
 router.get("/admin/logout", isJwtValid, isAdmin, adminController.logout)
+
+//test
+router.get("/admin/get-all-clients", isJwtValid, isAdmin, adminController.getAllClients)
+router.get("/admin/get-client", isJwtValid, isAdmin, adminController.getClient)
+router.put("/admin/get-client-by-name", bodyParser, isJwtValid, isAdmin, isJSON, adminController.getClientByName)
+router.put("/admin/commit-client", bodyParser, isJwtValid, isAdmin, isJSON, adminController.commitClient)
+router.get("/admin/get-client-stats", isJwtValid, isAdmin, adminController.getClientStats)
 module.exports = router

@@ -35,6 +35,106 @@ adminController.getClientMessages = ("/get-client-messages", async (req, res)=>{
     
 })
 
+
+
+adminController.getAllClients = ("/get-all-clients", async (req, res)=>{
+  try {
+      
+    //Get al clients
+    const clients = await database.findMany({}, database.collection.clients).toArray()
+        
+
+    utilities.setResponseData(res, 200, {'content-type': 'application/json'}, {statusCode: 200, responseData: {clients}}, true)
+    return
+  } 
+  catch (err) {
+    console.log(err)    
+    utilities.setResponseData(res, 500, {'content-type': 'application/json'}, {statusCode: 500, msg: "server error"}, true)
+    return
+  }
+  
+})
+
+
+adminController.getClient = ("/get-client", async (req, res)=>{
+  try {
+    const clientID = req.query.id
+    //Get client
+    const client = await database.findOne({_id: ObjectId.createFromHexString(clientID)}, database.collection.clients)
+        
+
+    utilities.setResponseData(res, 200, {'content-type': 'application/json'}, {statusCode: 200, responseData: client}, true)
+    return
+  } 
+  catch (err) {
+    console.log(err)    
+    utilities.setResponseData(res, 500, {'content-type': 'application/json'}, {statusCode: 500, msg: "server error"}, true)
+    return
+  }
+  
+})
+
+
+adminController.getClientByName = ("/get-client-by-name", async (req, res)=>{
+  try {
+    const clientName = JSON.parse(req.body).name
+    const regex = new RegExp(`${clientName}`, 'i');
+    //Get client
+    const clients = await database.db.collection(database.collection.clients).find({name: {$regex: regex}}).toArray()
+        
+
+    utilities.setResponseData(res, 200, {'content-type': 'application/json'}, {statusCode: 200, responseData: clients}, true)
+    return
+  } 
+  catch (err) {
+    console.log(err)    
+    utilities.setResponseData(res, 500, {'content-type': 'application/json'}, {statusCode: 500, msg: "server error"}, true)
+    return
+  }
+  
+})
+
+adminController.commitClient = ("/commit-client", async (req, res)=>{
+  try {
+    const payload = JSON.parse(req.body)
+    const clientID = ObjectId.createFromHexString(payload.id)
+    //commit client
+    await database.updateOne({_id: clientID}, database.collection.clients, {commited: true})
+        
+
+    utilities.setResponseData(res, 200, {'content-type': 'application/json'}, {statusCode: 200, responseData: {msg: "success"}}, true)
+    return
+  } 
+  catch (err) {
+    console.log(err)    
+    utilities.setResponseData(res, 500, {'content-type': 'application/json'}, {statusCode: 500, msg: "server error"}, true)
+    return
+  }
+  
+})
+
+
+adminController.getClientStats = ("/get-client-stats", async (req, res)=>{
+  try {
+    
+    const clientCount = await database.db.collection(database.collection.clients).countDocuments()
+    const commitedClientCount = await database.db.collection(database.collection.clients).countDocuments({commited: true})
+    const uncommitedClientCount = await database.db.collection(database.collection.clients).countDocuments({commited: false})
+        
+
+    utilities.setResponseData(res, 200, {'content-type': 'application/json'}, {statusCode: 200, responseData: {clientCount, commitedClientCount, uncommitedClientCount}}, true)
+    return
+  } 
+  catch (err) {
+    console.log(err)    
+    utilities.setResponseData(res, 500, {'content-type': 'application/json'}, {statusCode: 500, msg: "server error"}, true)
+    return
+  }
+  
+})
+
+
+
 adminController.deleteClientMessage = ("admin/delete-message", async (req, res)=>{
   try {
     const msgID = req.query.ID
