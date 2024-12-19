@@ -21,6 +21,8 @@ const adminAuth = require("../controllers/adminController/adminAuth")
 const {bodyParser, isJSON, isJwtValid, isAdmin} = require("../lib/middleware")
 
 router.post("/add-client", bodyParser, isJSON, clientController.addClient)
+router.post("/add-to-email-list", bodyParser, isJSON, clientController.addToEmailList)
+
 router.put("/admin/login", bodyParser, isJSON, adminAuth.login)
 router.get("/admin/get-client-messages", isJwtValid, isAdmin, adminController.getClientMessages)
 router.delete("/admin/delete-client-message", isJwtValid, isAdmin, adminController.deleteClientMessage)
