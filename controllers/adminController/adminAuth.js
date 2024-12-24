@@ -15,7 +15,7 @@ adminAuth.login = ("/login", async (req, res)=>{
             const admin = await database.findOne({email: payload.email}, database.collection.admins)
             
             if(!admin){
-                utilities.setResponseData(res, 400, {'content-type': 'application/json'}, {statusCode: 400, responseData: {msg: "invalid username or email"}}, true)
+                utilities.setResponseData(res, 400, {'content-type': 'application/json'}, {statusCode: 400, responseData: {msg: "invalid email or password"}}, true)
                 return
             }
 
@@ -23,7 +23,7 @@ adminAuth.login = ("/login", async (req, res)=>{
             payload.password = utilities.dataHasher(payload.password)
             //check if password match
             if(payload.password != admin.password){
-                utilities.setResponseData(res, 400, {'content-type': 'application/json'}, {statusCode: 400, responseData: {msg: "invalid username or email"}}, true)
+                utilities.setResponseData(res, 400, {'content-type': 'application/json'}, {statusCode: 400, responseData: {msg: "invalid email or password"}}, true)
                 return
             }
 
