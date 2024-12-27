@@ -120,9 +120,10 @@ adminController.getClientStats = ("/get-client-stats", async (req, res)=>{
     const clientCount = await database.db.collection(database.collection.clients).countDocuments()
     const commitedClientCount = await database.db.collection(database.collection.clients).countDocuments({commited: true})
     const uncommitedClientCount = await database.db.collection(database.collection.clients).countDocuments({commited: false})
+    const emailListCount = await database.db.collection(database.collection.emailList).countDocuments()
         
 
-    utilities.setResponseData(res, 200, {'content-type': 'application/json'}, {statusCode: 200, responseData: {clientCount, commitedClientCount, uncommitedClientCount}}, true)
+    utilities.setResponseData(res, 200, {'content-type': 'application/json'}, {statusCode: 200, responseData: {clientCount, commitedClientCount, uncommitedClientCount, emailListCount}}, true)
     return
   } 
   catch (err) {
@@ -181,5 +182,24 @@ adminController.logout = ("admin/logout", async (req, res)=>{
 
 })
 
+
+
+adminController.getEmailList = ("/get-email-list", async (req, res)=>{
+  try {
+      
+    //Get email list
+    const emailList = await database.findMany({}, database.collection.emailList).toArray()
+        
+
+    utilities.setResponseData(res, 200, {'content-type': 'application/json'}, {statusCode: 200, responseData: {emailList}}, true)
+    return
+  } 
+  catch (err) {
+    console.log(err)    
+    utilities.setResponseData(res, 500, {'content-type': 'application/json'}, {statusCode: 500, msg: "server error"}, true)
+    return
+  }
+  
+})
 
 module.exports = adminController

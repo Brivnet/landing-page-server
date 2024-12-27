@@ -36,6 +36,7 @@ router.get("/admin/logout", isJwtValid, isAdmin, adminController.logout)
 
 //test
 router.get("/admin/get-all-clients", isJwtValid, isAdmin, adminController.getAllClients)
+router.get("/admin/get-email-list", isJwtValid, isAdmin, adminController.getEmailList)
 router.get("/admin/get-client", isJwtValid, isAdmin, adminController.getClient)
 router.put("/admin/get-client-by-name", bodyParser, isJwtValid, isAdmin, isJSON, adminController.getClientByName)
 router.put("/admin/commit-client", bodyParser, isJwtValid, isAdmin, isJSON, adminController.commitClient)

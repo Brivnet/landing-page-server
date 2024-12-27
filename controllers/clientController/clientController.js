@@ -27,6 +27,11 @@ clientController.addClient = ("/add-client", async (req, res)=>{
             //store messages in the clientMessages collection
             const clientMessage = {clientID: client.insertedId , message, read: false}
             await database.insertOne(clientMessage, database.collection.clientMessages)
+            //check if email exists in email list
+            const existingEmail = await database.findOne({email: payload.email}, database.collection.emailList)
+            if(!existingEmail){
+                await database.insertOne({email: payload.email}, database.collection.emailList)
+            }
             
         }
         else{
@@ -67,9 +72,15 @@ clientController.addToEmailList = ("/add-to-email-list", async (req, res)=>{
             utilities.setResponseData(res, 400, {'content-type': 'application/json'}, {statusCode: 400, msg: paylodStatus.msg}, true)
             return
         }
-        
+        //convert email to lowercase
+        payload.email = payload.email.toLowerCase()
+        //check if email already exists
+        const existingEmail = await database.findOne({email: payload.email}, database.collection.emailList)
+        if(!existingEmail){
+            await database.insertOne({email: payload.email}, database.collection.emailList)
+        }
         //store data in email list
-        const client = await database.insertOne(payload, database.collection.emailList)
+        await database.insertOne(payload, database.collection.emailList)
 
         utilities.setResponseData(res, 200, {'content-type': 'application/json'}, {statusCode: 200, responseData: {msg: "success"}}, true)
     } 
