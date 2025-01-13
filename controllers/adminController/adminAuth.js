@@ -33,7 +33,7 @@ adminAuth.login = ("/login", async (req, res)=>{
             //set token in cookie
             res.cookie("token", token, {
                 httpOnly: true,
-                secure: true,
+                secure: false,
                 sameSite: "None"
             })
             //send response

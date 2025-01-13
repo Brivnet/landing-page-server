@@ -9,7 +9,7 @@ adminController.getClientMessages = ("/get-client-messages", async (req, res)=>{
         
       //get messages
       const messages = await database.db.collection(database.collection.clientMessages).aggregate([
-        { $match: { read: false } },
+        { $match: {} },
         {
           $lookup: {
             from: 'clients',             // Name of the clients collection
