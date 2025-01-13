@@ -121,9 +121,10 @@ adminController.getClientStats = ("/get-client-stats", async (req, res)=>{
     const commitedClientCount = await database.db.collection(database.collection.clients).countDocuments({commited: true})
     const uncommitedClientCount = await database.db.collection(database.collection.clients).countDocuments({commited: false})
     const emailListCount = await database.db.collection(database.collection.emailList).countDocuments()
+    const unreadMessagesCount = await database.db.collection(database.collection.clientMessages).countDocuments({read: false})
         
 
-    utilities.setResponseData(res, 200, {'content-type': 'application/json'}, {statusCode: 200, responseData: {clientCount, commitedClientCount, uncommitedClientCount, emailListCount}}, true)
+    utilities.setResponseData(res, 200, {'content-type': 'application/json'}, {statusCode: 200, responseData: {clientCount, commitedClientCount, uncommitedClientCount, emailListCount, unreadMessagesCount}}, true)
     return
   } 
   catch (err) {
